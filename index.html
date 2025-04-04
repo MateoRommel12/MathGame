@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numeracy Quiz Game - Philippines Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .philippines-gradient {
+            background: linear-gradient(135deg, #0038a8 0%, #ce1126 50%, #fcd116 100%);
+        }
+        .philippines-border {
+            border: 4px solid;
+            border-image: linear-gradient(to right, #0038a8, #ce1126, #fcd116) 1;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-philippines {
+            background: linear-gradient(135deg, #0038a8, #ce1126);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-philippines:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .btn-philippines:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn-philippines::after {
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            border-radius: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: all 0.4s;
+            background: linear-gradient(135deg, #0038a8, #ce1126);
+        }
+        .btn-philippines:hover::after {
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+        }
+        .sun-rays {
+            position: relative;
+        }
+        .sun-rays::before {
+            content: "★";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fcd116;
+            font-size: 2rem;
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 relative">
+    <!-- Background Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-red-900/70 to-yellow-700/70 z-0"></div>
+
+    <!-- Filipino-themed decorative elements -->
+    <div class="fixed top-0 left-0 w-full h-8 philippines-gradient z-10"></div>
+    <div class="fixed bottom-0 left-0 w-full h-8 philippines-gradient z-10"></div>
+    <div class="fixed top-10 left-10 text-6xl text-yellow-400 opacity-20 z-0">★</div>
+    <div class="fixed bottom-10 right-10 text-6xl text-yellow-400 opacity-20 z-0">★</div>
+    <div class="fixed top-1/4 right-20 text-4xl text-yellow-400 opacity-20 z-0">★</div>
+    <div class="fixed bottom-1/4 left-20 text-4xl text-yellow-400 opacity-20 z-0">★</div>
+
+    <!-- Username Entry -->
+    <section id="username-entry" class="min-h-screen w-full flex flex-col items-center justify-center text-center p-5 fade-in z-20">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 max-w-md w-full shadow-2xl philippines-border card-hover">
+            <div class="flex justify-center mb-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-red-600 to-yellow-500 flex items-center justify-center">
+                    <span class="text-4xl text-white font-bold">PH</span>
+                </div>
+            </div>
+            <h1 class="text-4xl font-extrabold mb-2 sun-rays relative">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-red-600 to-yellow-500">
+                    Numeracy Quiz
+                </span>
+            </h1>
+            <p class="text-gray-600 mb-8">Test your math skills with a Filipino twist!</p>
+            <div class="space-y-6">
+                <div class="relative">
+                    <input type="text" id="username" placeholder="Your Name" 
+                        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    <div class="absolute right-3 top-3 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                </div>
+                <button onclick="selectDifficulty()" 
+                    class="btn-philippines w-full text-white px-8 py-4 rounded-lg text-lg font-bold shadow-lg">
+                    Start Quiz
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Difficulty Selection -->
+    <section id="difficulty-selection" class="hidden min-h-screen w-full flex flex-col items-center justify-center text-center p-5 fade-in z-20">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 max-w-md w-full shadow-2xl philippines-border card-hover">
+            <h2 class="text-3xl font-extrabold mb-2 sun-rays relative">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-red-600 to-yellow-500">
+                    Choose Difficulty
+                </span>
+            </h2>
+            <p class="text-gray-600 mb-8">Select your challenge level</p>
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="startQuiz('easy')" 
+                    class="group relative overflow-hidden rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-8 py-5 text-lg font-bold text-white shadow-lg transition-all hover:from-green-600 hover:to-green-700">
+                    <span class="relative z-10">Easy Mode</span>
+                    <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Start
+                    </span>
+                </button>
+                <button onclick="startQuiz('hard')" 
+                    class="group relative overflow-hidden rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-8 py-5 text-lg font-bold text-white shadow-lg transition-all hover:from-red-600 hover:to-red-700">
+                    <span class="relative z-10">Hard Mode</span>
+                    <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Start
+                    </span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Page (Initially Hidden) -->
+    <section id="quiz" class="hidden min-h-screen w-full flex flex-col items-center justify-center p-5 fade-in z-20">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 max-w-2xl w-full shadow-2xl philippines-border card-hover">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-blue-600">Question <span id="question-number" class="text-red-600">1</span><span class="text-gray-600">/10</span></h2>
+                <div class="flex items-center bg-red-100 px-4 py-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="time" class="font-mono font-bold text-red-600">5:00</span>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-6 rounded-xl mb-6 shadow-inner">
+                <p id="question-text" class="text-2xl font-medium text-gray-800"></p>
+                <img id="question-image" src="/placeholder.svg" alt="Question Image" class="mx-auto my-4 max-h-48 rounded-lg shadow-md">
+            </div>
+            
+            <div id="options" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="pauseGame()" class="flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Pause
+                </button>
+                <button onclick="exitGame()" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Exit
+                </button>
+                <button onclick="restartQuiz()" class="flex items-center justify-center bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Restart
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pause Section -->
+    <section id="pause-screen" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center text-center z-30">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 max-w-md w-full shadow-2xl philippines-border card-hover">
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 rounded-full bg-yellow-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-4xl font-extrabold mb-8 text-yellow-600">Game Paused</h2>
+            <div class="space-y-4">
+                <button onclick="resumeGame()" class="w-full flex items-center justify-center bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Resume Game
+                </button>
+                <button onclick="exitGame()" class="w-full flex items-center justify-center bg-red-500 hover:bg-red-600 text-white px-6 py-4 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Exit Game
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Page (Initially Hidden) -->
+    <section id="results" class="hidden min-h-screen w-full flex flex-col items-center justify-center p-5 fade-in z-20">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 max-w-2xl w-full shadow-2xl philippines-border card-hover">
+            <div class="flex justify-center mb-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-red-600 to-yellow-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-center mb-2 sun-rays relative">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-red-600 to-yellow-500">
+                    Quiz Completed!
+                </span>
+            </h2>
+            <p id="score" class="text-2xl text-center mb-8 font-bold"></p>
+            
+            <!-- Your Answers Section -->
+            <div id="user-answers" class="text-left mb-6">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    Your Answers:
+                </h3>
+                <div class="max-h-60 overflow-y-auto pr-2 space-y-4">
+                    <!-- Example of an answer item -->
+                    <div class="p-4 border rounded-lg shadow-md bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <p class="font-medium text-gray-800">Q1: What is 2 + 2?</p>
+                        <div class="flex justify-between mt-2">
+                            <p class="text-gray-600">Your Answer: <span class="font-bold text-green-600">4</span></p>
+                            <p class="text-gray-600">Correct Answer: <span class="font-bold text-green-600">4</span></p>
+                        </div>
+                    </div>
+                    <div class="p-4 border rounded-lg shadow-md bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <p class="font-medium text-gray-800">Q2: What is 5 + 3?</p>
+                        <div class="flex justify-between mt-2">
+                            <p class="text-gray-600">Your Answer: <span class="font-bold text-red-600">6</span></p>
+                            <p class="text-gray-600">Correct Answer: <span class="font-bold text-green-600">8</span></p>
+                        </div>
+                    </div>
+                    <!-- More answers will be added here -->
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="viewLeaderboard()" class="flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    View Leaderboard
+                </button>
+                <button onclick="exitGame()" class="flex items-center justify-center bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Page (Initially Hidden) -->
+    <section id="leaderboard" class="hidden min-h-screen w-full flex flex-col items-center justify-center p-5 fade-in z-20">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 max-w-4xl w-full shadow-2xl philippines-border card-hover">
+            <div class="flex justify-center mb-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-red-600 to-yellow-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-center mb-8 sun-rays relative">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-red-600 to-yellow-500">
+                    Leaderboard
+                </span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Easy Leaderboard Column -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl shadow-lg border border-green-200">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Easy Difficulty
+                    </h3>
+                    <ul id="easy-leaderboard" class="space-y-2">
+                        <!-- Example Entries -->
+                        <li class="flex justify-between p-3 rounded-lg bg-white shadow-sm hover:bg-green-50 transition duration-200">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold mr-3">1</span>
+                                <span class="font-medium">John Doe</span>
+                            </div>
+                            <span class="font-bold text-green-600">8 points</span>
+                        </li>
+                        <li class="flex justify-between p-3 rounded-lg bg-white shadow-sm hover:bg-green-50 transition duration-200">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-green-400 text-white flex items-center justify-center font-bold mr-3">2</span>
+                                <span class="font-medium">Jane Smith</span>
+                            </div>
+                            <span class="font-bold text-green-600">7 points</span>
+                        </li>
+                        <!-- More entries will be added here -->
+                    </ul>
+                </div>
+                
+                <!-- Hard Leaderboard Column -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl shadow-lg border border-red-200">
+                    <h3 class="text-2xl font-semibold text-red-600 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Hard Difficulty
+                    </h3>
+                    <ul id="hard-leaderboard" class="space-y-2">
+                        <!-- Example Entries -->
+                        <li class="flex justify-between p-3 rounded-lg bg-white shadow-sm hover:bg-red-50 transition duration-200">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-bold mr-3">1</span>
+                                <span class="font-medium">Alex Johnson</span>
+                            </div>
+                            <span class="font-bold text-red-600">9 points</span>
+                        </li>
+                        <li class="flex justify-between p-3 rounded-lg bg-white shadow-sm hover:bg-red-50 transition duration-200">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-red-400 text-white flex items-center justify-center font-bold mr-3">2</span>
+                                <span class="font-medium">Emily Davis</span>
+                            </div>
+                            <span class="font-bold text-red-600">8 points</span>
+                        </li>
+                        <!-- More entries will be added here -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mt-8">
+                <button onclick="goBackToResults()" class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Results
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
